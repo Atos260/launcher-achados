@@ -59,22 +59,13 @@
             z-index: 999;
         }
 
-        /* Cachorro do lado da barra de pesquisa */
-        #dog {
-            position: absolute;
-            top: 50%;
-            left: 100%;
-            transform: translateX(-100%) translateY(-50%);
-            transition: transform 0.5s ease;
-        }
-
-        /* Animação de confetes */
+        /* Confetti */
         .confetti {
             display: none;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen relative">
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
     <!-- CABEÇALHO COM BARRA DE PESQUISA -->
     <header class="bg-shopee-primary sticky top-0 z-50 shadow-lg">
@@ -82,7 +73,7 @@
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                 
                 <!-- Logo / Nome do Site -->
-               <div class="flex items-center gap-2 text-white font-bold text-2xl tracking-tight cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="flex items-center gap-2 text-white font-bold text-2xl tracking-tight cursor-pointer" onclick="window.scrollTo(0,0)">
                     <i data-lucide="shopping-bag" class="w-8 h-8"></i>
                     <span>Launcher<span class="text-yellow-300">Achados</span></span>
                 </div>
@@ -96,9 +87,12 @@
                         class="w-full pl-10 pr-4 py-3 rounded-lg border-none focus:ring-2 focus:ring-yellow-300 shadow-sm text-gray-700 outline-none transition-all"
                     >
                     <i data-lucide="search" class="absolute left-3 top-3.5 text-gray-400 w-5 h-5"></i>
-
-                    <!-- Cachorro Interativo -->
-                    <img src="https://yourimageurl.png" id="dog" class="absolute top-0 left-0 w-16 h-16">
+                    <button 
+                        onclick="searchProducts()" 
+                        class="absolute right-3 top-3.5 bg-yellow-400 text-white p-2 rounded-full"
+                    >
+                        🔍
+                    </button>
                 </div>
             </div>
         </div>
@@ -187,7 +181,7 @@
                 rating: 4.7,
                 sold: "100k",
             },
-            // Adicione o restante dos produtos aqui...
+            // Adicione mais produtos aqui...
         ];
 
         const grid = document.getElementById('productsGrid');
@@ -196,7 +190,7 @@
         const searchFeedback = document.getElementById('searchFeedback');
         const searchTermSpan = document.getElementById('searchTerm');
 
-        lucide.createIcons(); // Inicializa ícones
+        lucide.createIcons();
 
         const formatCurrency = (value) => {
             return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
@@ -278,15 +272,11 @@
                 searchFeedback.classList.remove('hidden');
                 searchTermSpan.textContent = e.target.value;
                 renderProducts(filtered);
-
-                // Animação do cachorro
-                document.getElementById('dog').style.transform = 'translateX(10%)';
-                setTimeout(() => canvasConfetti(), 1000); // Chuva de confetes depois que terminar de digitar
-            } else {
-                searchFeedback.classList.add('hidden');
-                renderProducts(productList);
-                document.getElementById('dog').style.transform = 'translateX(-100%)'; // Voltar para o lado
             }
+        };
+
+        const searchProducts = () => {
+            canvasConfetti(); // Chuva de confetes quando clicar no botão de pesquisa
         };
 
         // Função de confetes
@@ -309,7 +299,6 @@
             searchInput.value = '';
             searchFeedback.classList.add('hidden');
             renderProducts(productList);
-            document.getElementById('dog').style.transform = 'translateX(-100%)'; // Voltar
         };
 
         document.addEventListener('DOMContentLoaded', () => {
