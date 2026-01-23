@@ -62,15 +62,19 @@
 class="w-full pl-10 pr-20 py-3 rounded-lg outline-none">
 <i data-lucide="search" class="absolute left-3 top-3.5 text-gray-400"></i>
 
+<!-- BOTÃO PESQUISA ALINHADO -->
 <button onclick="searchProducts()"
-class="absolute right-2 top-2 bg-yellow-400 px-4 py-2 rounded-lg font-bold">
+class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-yellow-400 px-4 py-2 rounded-lg font-bold">
 🔍
 </button>
 
 <div id="suggestions" class="hidden"></div>
 </div>
 
-<button onclick="goHome()" class="text-white font-semibold">Home</button>
+<!-- BOTÃO HOME DESTACADO -->
+<button onclick="goHome()" class="bg-yellow-400 px-4 py-2 rounded-lg font-bold text-white hover:bg-yellow-500">
+Home
+</button>
 
 </div>
 </header>
@@ -155,8 +159,7 @@ class="product-card bg-white rounded-lg shadow p-3 flex flex-col">
 <div class="text-xs text-gray-500">⭐ ${p.rating} • ${p.sold}</div>
 <div class="text-xs line-through text-gray-400">R$ ${p.originalPrice}</div>
 <div class="font-bold text-orange-500">R$ ${p.price}</div>
-</a>`;
-});
+</a>`;});
 }
 
 function searchProducts(){
@@ -203,6 +206,8 @@ render(productList);
 
 </body>
 </html>
+
+
 
 
 
