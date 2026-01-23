@@ -3,31 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ofertas Imperdíveis | Launcher Achados</title>
-    
-    <!-- Tailwind CSS (Estilização Moderna e Rápida) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Ícones (Lucide) -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Ofertas Imperdíveis | Atos.Promos</title>
 
-    <!-- Confetti.js (Animação de Confetes) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti"></script>
 
-    <!-- Configuração de Cores e Fontes -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         shopee: {
-                            primary: '#ee4d2d', // Laranja oficial Shopee
-                            dark: '#d03e1e',
-                            light: '#ff6b4a'
+                            primary: '#ee4d2d',
+                            dark: '#d03e1e'
                         }
-                    },
-                    fontFamily: {
-                        sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
                     }
                 }
             }
@@ -35,279 +25,158 @@
     </script>
 
     <style>
-        /* Animações Suaves */
         .product-card {
             transition: all 0.3s ease;
         }
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Botão do WhatsApp */
         .whatsapp-button {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #25d366;
+            background: #25d366;
             color: white;
-            border-radius: 50%;
             padding: 15px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            font-size: 24px;
-            cursor: pointer;
+            border-radius: 50%;
             z-index: 999;
-        }
-
-        /* Confetti */
-        .confetti {
-            display: none;
         }
     </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
-    <!-- CABEÇALHO COM BARRA DE PESQUISA -->
-    <header class="bg-shopee-primary sticky top-0 z-50 shadow-lg">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                
-                <!-- Logo / Nome do Site -->
-                <div class="flex items-center gap-2 text-white font-bold text-2xl tracking-tight cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <i data-lucide="shopping-bag" class="w-8 h-8"></i>
-                    <span>Launcher<span class="text-yellow-300">Achados</span></span>
-                </div>
-                
-                <!-- Barra de Pesquisa -->
-                <div class="relative w-full max-w-xl">
-                    <input 
-                        type="text" 
-                        id="searchInput"
-                        placeholder="Buscar produto (ex: fone, relógio)..." 
-                        class="w-full pl-10 pr-4 py-3 rounded-lg border-none focus:ring-2 focus:ring-yellow-300 shadow-sm text-gray-700 outline-none transition-all"
-                    >
-                    <i data-lucide="search" class="absolute left-3 top-3.5 text-gray-400 w-5 h-5"></i>
-                    <button 
-                        onclick="searchProducts()" 
-                        class="absolute right-3 top-3.5 bg-yellow-400 text-white p-2 rounded-full"
-                    >
-                        🔍
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
+<header class="bg-shopee-primary sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row gap-4 items-center justify-between">
 
-    <!-- HERO SECTION (Banner Simples) -->
-    <div class="bg-gradient-to-r from-orange-100 to-orange-50 py-8 mb-6 border-b border-orange-100">
-        <div class="container mx-auto px-4 text-center">
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">As Melhores Ofertas Estão Aqui</h1>
-            <p class="text-gray-600">Garimpamos os melhores preços e produtos com envio rápido.</p>
+        <!-- LOGO -->
+        <div onclick="goHome()" class="flex items-center gap-2 text-white font-bold text-2xl cursor-pointer">
+            <i data-lucide="shopping-bag"></i>
+            <span>Atos.<span class="text-yellow-300">Promos</span></span>
         </div>
+
+        <!-- PESQUISA -->
+        <div class="relative w-full max-w-xl flex">
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Buscar produto..."
+                class="flex-1 pl-10 pr-4 py-3 rounded-l-lg outline-none"
+            >
+            <i data-lucide="search" class="absolute left-3 top-3.5 text-gray-400 w-5 h-5"></i>
+
+            <button
+                onclick="searchProducts()"
+                class="bg-yellow-400 px-5 rounded-r-lg font-bold flex items-center justify-center">
+                🔍
+            </button>
+        </div>
+
+        <!-- HOME -->
+        <button onclick="goHome()" class="text-white font-semibold hover:underline">
+            Home
+        </button>
     </div>
+</header>
 
-    <!-- CONTEÚDO PRINCIPAL: LISTA DE PRODUTOS -->
-    <main class="flex-grow container mx-auto px-4 pb-12">
-        
-        <!-- Feedback de Pesquisa -->
-        <div id="searchFeedback" class="hidden mb-6 text-gray-600 font-medium">
-            Mostrando resultados para: <span id="searchTerm" class="text-shopee-primary font-bold"></span>
-            <button onclick="clearSearch()" class="ml-2 text-sm text-blue-500 hover:underline">(Limpar)</button>
-        </div>
+<main class="container mx-auto px-4 pb-12">
+    <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+</main>
 
-        <!-- Grid de Produtos -->
-        <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-            <!-- Os produtos serão inseridos aqui via JavaScript -->
-        </div>
+<footer class="bg-white border-t py-6 text-center text-sm text-gray-500">
+    © 2024 Atos.Promos — Seleção de ofertas independentes
+</footer>
 
-        <!-- Estado Vazio (Sem resultados) -->
-        <div id="emptyState" class="hidden flex-col items-center justify-center py-20 text-center">
-            <i data-lucide="package-search" class="w-16 h-16 text-gray-300 mb-4"></i>
-            <h3 class="text-xl font-semibold text-gray-600">Nenhum produto encontrado</h3>
-            <p class="text-gray-500">Tente buscar por outro termo ou navegue pela lista completa.</p>
-            <button onclick="clearSearch()" class="mt-4 px-6 py-2 bg-shopee-primary text-white rounded-full hover:bg-shopee-dark transition">Ver todos os produtos</button>
-        </div>
+<a href="https://wa.me/5533984684394" target="_blank" class="whatsapp-button">
+    <i data-lucide="message-circle"></i>
+</a>
 
-    </main>
+<script>
+lucide.createIcons();
 
-    <!-- RODAPÉ -->
-    <footer class="bg-white border-t border-gray-200 mt-auto py-8">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-gray-500 text-sm">
-                &copy; 2024 Launcher Achados. Seleção de ofertas independentes.
-            </p>
-        </div>
-    </footer>
+const productList = [
+    {
+        id: 1,
+        name: "Deo Colônia Cebolinha 25ml - Jequiti",
+        price: 21.90,
+        originalPrice: 21.90,
+        image: "https://down-br.img.susercontent.com/file/sg-11134201-7rdxy-mc150e30sfgu96_tn",
+        link: "https://s.shopee.com.br/2qOUuiGYkN",
+        category: "Beleza",
+        rating: 4.9,
+        sold: "90k"
+    },
+    {
+        id: 2,
+        name: "Varal De Chão Torre 3 Andares Retrátil",
+        price: 69.99,
+        originalPrice: 149.90,
+        image: "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m7z8j51xhnu92f@resize_w450_nl.webp",
+        link: "https://s.shopee.com.br/40aSDKw4Ul",
+        category: "Limpeza",
+        rating: 4.8,
+        sold: "10k"
+    },
+    {
+        id: 3,
+        name: "Calça Pantalona Alfaiataria Premium",
+        price: 34.80,
+        originalPrice: 129.90,
+        image: "https://down-bs-br.img.susercontent.com/br-11134207-7r98o-ma4qg4onmdjb35.webp",
+        link: "https://s.shopee.com.br/2Vlehf5Apa",
+        category: "Moda",
+        rating: 4.7,
+        sold: "100k"
+    }
+];
 
-    <!-- BOTÃO FIXO DE WHATSAPP -->
-    <a href="https://wa.me/33984684394" target="_blank" class="whatsapp-button">
-        <i data-lucide="message-circle" class="w-6 h-6 text-white"></i>
-    </a>
+const grid = document.getElementById("productsGrid");
+const searchInput = document.getElementById("searchInput");
 
-    <!-- JAVASCRIPT LÓGICA + DADOS -->
-    <script>
-        // Array de produtos
-        const productList = [
-            {
-                id: 1,
-                name: "Deo Colônia Cebolinha 25ml - Jequiti",
-                price: 21.90,
-                originalPrice: 21.90,
-                image: "https://down-br.img.susercontent.com/file/sg-11134201-7rdxy-mc150e30sfgu96_tn", 
-                link: "https://s.shopee.com.br/2qOUuiGYkN",
-                category: "Beleza",
-                rating: 4.9,
-                sold: "90k"
-            },
-            {
-                id: 2,
-                name: "Varal De Chão Torre 3 Andares Retrátil Compacto, Dobrável e com Rodinhas",
-                price: 69.99,
-                originalPrice: 149.90,
-                image: "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m7z8j51xhnu92f@resize_w450_nl.webp",
-                link: "https://s.shopee.com.br/40aSDKw4Ul",
-                category: "limpeza",
-                rating: 4.8,
-                sold: "10k"
-            },
-            {
-                id: 3,
-                name: "Calça Pantalona Alfaiataria Premium Com Bolso PROMOÇÃO",
-                price: 34.80,
-                originalPrice: 129.90,
-                image: "https://down-bs-br.img.susercontent.com/br-11134207-7r98o-ma4qg4onmdjb35.webp",
-                link: "https://s.shopee.com.br/2Vlehf5Apa",
-                category: "Moda",
-                rating: 4.7,
-                sold: "100k",
-            },
-            // Adicione mais produtos aqui...
-        ];
+function formatCurrency(v) {
+    return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
 
-        const grid = document.getElementById('productsGrid');
-        const searchInput = document.getElementById('searchInput');
-        const emptyState = document.getElementById('emptyState');
-        const searchFeedback = document.getElementById('searchFeedback');
-        const searchTermSpan = document.getElementById('searchTerm');
+function render(list) {
+    grid.innerHTML = "";
+    list.forEach(p => {
+        const discount = Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100);
+        grid.innerHTML += `
+        <a href="${p.link}" target="_blank"
+           class="product-card bg-white rounded-lg shadow p-3 flex flex-col">
+            <div class="relative">
+                <span class="absolute top-0 right-0 bg-yellow-400 text-xs font-bold px-2 py-1">-${discount}%</span>
+                <img src="${p.image}" class="aspect-square object-cover rounded mb-2">
+            </div>
+            <h3 class="text-sm font-semibold mb-1">${p.name}</h3>
+            <div class="text-xs text-gray-500 mb-1">⭐ ${p.rating} • ${p.sold} vendidos</div>
+            <div class="text-gray-400 text-xs line-through">${formatCurrency(p.originalPrice)}</div>
+            <div class="text-shopee-primary font-bold">${formatCurrency(p.price)}</div>
+        </a>`;
+    });
+}
 
-        lucide.createIcons();
+function searchProducts() {
+    const term = searchInput.value.toLowerCase().trim();
+    const filtered = productList.filter(p =>
+        p.name.toLowerCase().includes(term) || p.category.toLowerCase().includes(term)
+    );
+    render(filtered);
+    confetti({ particleCount: 60, spread: 70 });
+}
 
-        const formatCurrency = (value) => {
-            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-        };
+function goHome() {
+    searchInput.value = "";
+    render(productList);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-        const createProductCard = (product) => {
-            const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
-            const fallbackImage = "https://placehold.co/400x400/orange/white?text=Shopee+Oferta";
+render(productList);
+</script>
 
-            return `
-                <div class="product-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full relative group">
-                    <div class="absolute top-0 right-0 bg-yellow-400 text-shopee-primary text-xs font-bold px-2 py-1 z-10">
-                        -${discount}% OFF
-                    </div>
-
-                    <div class="relative w-full aspect-square overflow-hidden bg-gray-100">
-                        <a href="${product.link}" target="_blank">
-                            <img 
-                                src="${product.image}" 
-                                alt="${product.name}" 
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                onerror="this.src='${fallbackImage}'"
-                            >
-                        </a>
-                    </div>
-
-                    <div class="p-3 flex flex-col flex-grow">
-                        <h3 class="text-sm text-gray-800 font-medium line-clamp-2 mb-2 leading-tight flex-grow" title="${product.name}">
-                            ${product.name}
-                        </h3>
-                        
-                        <div class="flex items-center gap-1 text-xs text-gray-500 mb-2">
-                            <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-yellow-400"></i>
-                            <span>${product.rating}</span>
-                            <span class="mx-1">•</span>
-                            <span>${product.sold} vendidos</span>
-                        </div>
-
-                        <div class="mt-auto">
-                            <div class="text-xs text-gray-400 line-through">${formatCurrency(product.originalPrice)}</div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-shopee-primary text-lg font-bold">${formatCurrency(product.price)}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        };
-
-        const renderProducts = (productsToRender) => {
-            grid.innerHTML = '';
-
-            if (productsToRender.length === 0) {
-                grid.classList.add('hidden');
-                emptyState.classList.remove('hidden');
-                emptyState.style.display = 'flex';
-            } else {
-                emptyState.classList.add('hidden');
-                emptyState.style.display = 'none';
-                grid.classList.remove('hidden');
-                
-                productsToRender.forEach(product => {
-                    grid.innerHTML += createProductCard(product);
-                });
-
-                lucide.createIcons();
-            }
-        };
-
-        const handleSearch = (e) => {
-            const term = e.target.value.toLowerCase().trim();
-            
-            if (term.length > 0) {
-                const filtered = productList.filter(product => 
-                    product.name.toLowerCase().includes(term) || 
-                    product.category.toLowerCase().includes(term)
-                );
-                
-                searchFeedback.classList.remove('hidden');
-                searchTermSpan.textContent = e.target.value;
-                renderProducts(filtered);
-            }
-        };
-
-        const searchProducts = () => {
-            canvasConfetti(); // Chuva de confetes quando clicar no botão de pesquisa
-        };
-
-        // Função de confetes
-        const canvasConfetti = () => {
-            const duration = 3 * 1000; // Duração de 3 segundos
-            const animationEnd = Date.now() + duration;
-            const interval = setInterval(() => {
-                if (Date.now() > animationEnd) {
-                    return clearInterval(interval);
-                }
-                confetti({
-                    particleCount: 50,
-                    spread: 70,
-                    origin: { x: Math.random(), y: Math.random() }
-                });
-            }, 100);
-        };
-
-        window.clearSearch = () => {
-            searchInput.value = '';
-            searchFeedback.classList.add('hidden');
-            renderProducts(productList);
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProducts(productList);
-        });
-
-        searchInput.addEventListener('input', handleSearch);
-    </script>
 </body>
 </html>
+
 
 
